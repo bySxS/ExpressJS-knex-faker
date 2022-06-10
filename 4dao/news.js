@@ -1,11 +1,8 @@
 const db = require('../db/db')
-const commentsService = require('../3service/comments')
-const categoryDAO = require('../4dao/category')
-const usersDAO = require('../4dao/users')
 
 class NewsDAO {
 
-    async createNews(title, category_id, user_id, text){
+    async createNews(title, category_id, user_id, text) {
         const [id] = await db('news')
             .insert({
                 title,
@@ -17,12 +14,15 @@ class NewsDAO {
         return id
     }
 
-    async getNewsById(id){
+    async getNewsById(id) {
         const result = await db('news')
             .select('*')
             .where('id', id)
 
         if (result[0]) {
+            const commentsService = require('../3service/comments')
+            const categoryDAO = require('../4dao/category')
+            const usersDAO = require('../4dao/users')
             result[0].comments =
                 await commentsService.getCommentsByIdNews(result[0])
             result[0].category =
@@ -35,7 +35,7 @@ class NewsDAO {
         return result
     }
 
-    async getNews(limit = 10, offset = 0){
+    async getNews(limit = 10, offset = 0) {
     const news = await db('news')
         .select('*')
         .limit(limit)

@@ -26,7 +26,8 @@ class UsersService {
     }
 
     getUserById(Dto){
-        return usersDAO.getUserById(Dto)
+        const {id} = Dto
+        return usersDAO.getUserById(id)
     }
 
     updateUser(Dto){
