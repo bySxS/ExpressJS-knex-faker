@@ -1,0 +1,33 @@
+{
+  "name": "expressjs-knex-faker",
+  "version": "1.0.0",
+  "description": "bySxS",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js",
+    "migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bySxS/ExpressJS-knex-faker.git"
+  },
+  "author": "sxs",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bySxS/ExpressJS-knex-faker/issues"
+  },
+  "homepage": "https://github.com/bySxS/ExpressJS-knex-faker#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "knex": "^2.1.0",
+    "mysql": "^2.18.1",
+    "sqlite3": "^5.0.8"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^7.2.0",
+    "nodemon": "^2.0.16"
+  }
+}
