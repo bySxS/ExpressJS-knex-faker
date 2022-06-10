@@ -1,4 +1,4 @@
-const usersService = require('../3service/users')
+const usersService = require('../service/users')
 const { faker } = require('@faker-js/faker');
 
 class UsersController {

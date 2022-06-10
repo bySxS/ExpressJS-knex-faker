@@ -1,4 +1,4 @@
-const newsDAO = require('../4dao/news')
+const newsDAO = require('../dao/news')
 
 class NewsService {
 

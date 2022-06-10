@@ -1,4 +1,4 @@
-const categoryService = require('../3service/category')
+const categoryService = require('../service/category')
 //const { faker } = require('@faker-js/faker');
 
 class CategoryController {

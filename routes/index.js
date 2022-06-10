@@ -1,8 +1,8 @@
 const express = require('express');
-const usersController = require('../2controller/users')
-const categoryController = require('../2controller/category')
-const newsController = require('../2controller/news')
-const commentsController = require('../2controller/comments')
+const usersController = require('../controller/users')
+const categoryController = require('../controller/category')
+const newsController = require('../controller/news')
+const commentsController = require('../controller/comments')
 
 
 const router = express.Router();

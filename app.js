@@ -1,5 +1,5 @@
 const express = require('express')
-const router = require('./1routes')
+const router = require('./routes')
 const cors = require('cors')
 
 const corsOptions  = {

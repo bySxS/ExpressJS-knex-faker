@@ -1,4 +1,4 @@
-const commentsDAO = require('../4dao/comments')
+const commentsDAO = require('../dao/comments')
 
 class CommentsService {
 

@@ -1,5 +1,5 @@
-const commentsService = require('../3service/comments')
-const { faker } = require('@faker-js/faker');
+const commentsService = require('../service/comments')
+//const { faker } = require('@faker-js/faker');
 
 class CommentsController {
 

@@ -1,4 +1,4 @@
-const usersDAO = require('../4dao/users')
+const usersDAO = require('../dao/users')
 
 class UsersService {
 

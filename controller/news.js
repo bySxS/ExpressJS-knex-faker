@@ -1,5 +1,5 @@
-const newsService = require('../3service/news')
-const { faker } = require('@faker-js/faker');
+const newsService = require('../service/news')
+//const { faker } = require('@faker-js/faker');
 
 class NewsController {
 

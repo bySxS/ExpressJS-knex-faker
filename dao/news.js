@@ -1,4 +1,7 @@
 const db = require('../db/db')
+const commentsService = require('../service/comments')
+const categoryDAO = require('../dao/category')
+const usersDAO = require('../dao/users')
 
 class NewsDAO {
 
@@ -20,9 +23,6 @@ class NewsDAO {
             .where('id', id)
 
         if (result[0]) {
-            const commentsService = require('../3service/comments')
-            const categoryDAO = require('../4dao/category')
-            const usersDAO = require('../4dao/users')
             result[0].comments =
                 await commentsService.getCommentsByIdNews(result[0])
             result[0].category =

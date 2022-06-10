@@ -1,4 +1,4 @@
-const categoryDAO = require('../4dao/category')
+const categoryDAO = require('../dao/category')
 
 class CategoryService {
 
