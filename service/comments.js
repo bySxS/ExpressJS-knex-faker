@@ -7,9 +7,10 @@ class CommentsService {
         return commentsDAO.createComment(news_id, user_id, text)
     }
 
-    getCommentsByIdNews(Dto){
-        const {id} = Dto
-        return commentsDAO.getCommentsByIdNews(id)
+    getCommentsByIdNews(idDto, limitDto){
+        const {id} = idDto
+        const {limit, offset} = limitDto
+        return commentsDAO.getCommentsByIdNews(id, limit, offset)
     }
 
 }

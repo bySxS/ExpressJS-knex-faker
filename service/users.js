@@ -30,8 +30,9 @@ class UsersService {
         return usersDAO.getUserById(id)
     }
 
-    updateUser(Dto){
-        const {id, nickname, fullName, email} = Dto
+    updateUser(idDto, bodyDto){
+        const {id} = idDto
+        const {nickname, fullName, email} = bodyDto
         return usersDAO.updateUser(id, nickname, fullName, email)
     }
 

@@ -38,14 +38,15 @@ class UsersDAO {
     async updateUser(id, nickname, fullName, email) {
         const have = await this.getUserById(id)
         if (have[0]) {
-            const [id] = await db('users')
+            let result = await db('users')
                 .where({id: have[0].id})
                 .update({
                     nickname,
                     email,
                     full_name: fullName
                 })
-            return id
+            if (result == 1) result = id
+            return result
         }
     }
 

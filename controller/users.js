@@ -59,7 +59,8 @@ class UsersController {
     async updateUser(req, res) {
 
         try {
-            const id = await usersService.updateUser(req.body)
+
+            const id = await usersService.updateUser(req.params, req.body)
             res.status(201).json(`данные пользователя с id ${id} успешно изменили`)
         } catch (err) {
             console.error(err)

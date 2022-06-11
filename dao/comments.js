@@ -9,10 +9,13 @@ class CommentsDAO {
         return id
     }
 
-    async getCommentsByIdNews(id){
+    async getCommentsByIdNews(id, limit = 10, offset = 0){
         const result = await db('comments')
-            .select('*')
             .where('news_id', id)
+            .select('*')
+            .limit(limit)
+            .offset(offset)
+
         return result
     }
 

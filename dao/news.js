@@ -1,7 +1,7 @@
 const db = require('../db/db')
-const commentsService = require('../service/comments')
-const categoryDAO = require('../dao/category')
-const usersDAO = require('../dao/users')
+const commentsDAO = require('../dao/comments')
+//const categoryDAO = require('../dao/category')
+// const usersDAO = require('../dao/users')
 
 class NewsDAO {
 
@@ -19,16 +19,22 @@ class NewsDAO {
 
     async getNewsById(id) {
         const result = await db('news')
-            .select('*')
-            .where('id', id)
+            .where('news.id', id)
+            //.join('comments', 'news.id', '=', 'comments.news_id')
+            .join('users', 'news.user_id', '=', 'users.id')
+            .join('category', 'news.category_id', '=', 'category.id')
+            .select('news.id','news.title', 'news.text', 'news.updated_at', 'news.user_id',
+                'category.name as category_name', 'category.name_rus as category_name_rus',
+                //'comments.id', 'comments.text', 'comments.updated_at',
+                'users.nickname as author_name', 'users.full_name as author_full_name', 'users.email as author_email')
 
-        if (result[0]) {
+         if (result[0]) {
             result[0].comments =
-                await commentsService.getCommentsByIdNews(result[0])
-            result[0].category =
-                await categoryDAO.getCategoryById(result[0].category_id)
-            result[0].user =
-                await usersDAO.getUserById(result[0].user_id)
+                await commentsDAO.getCommentsByIdNews(result[0].id)
+            // result[0].category =
+            //     await categoryDAO.getCategoryById(result[0].category_id)
+            // result[0].user =
+            //     await usersDAO.getUserById(result[0].user_id)
         }
 
 

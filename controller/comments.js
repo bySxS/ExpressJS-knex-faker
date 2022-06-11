@@ -16,7 +16,7 @@ class CommentsController {
     async getCommentsByIdNews(req, res) {
         try {
             const comments_list =
-                await commentsService.getCommentsByIdNews(req.params)
+                await commentsService.getCommentsByIdNews(req.params, req.query)
             res.status(200).json(comments_list)
         } catch (err) {
             console.error(err)
