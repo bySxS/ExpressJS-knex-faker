@@ -2,6 +2,7 @@ const _ = require('lodash')
 //const _ = require('lodash/fp') //карированные
 const logger = require('../logger')
 let users = require('../test/t2.json')
+let text = require('../test/t1')
 //users = JSON.parse(users)
 //users = JSON.stringify(users)
 
@@ -100,3 +101,14 @@ const output2 = _(users)
 
 console.log('результат2 обработки данных с файла = ', output2)
 
+const top5Words = _.flow([
+    _.toLower,
+    _.words,
+    _.countBy,
+    _.toPairs,
+    _.partial(_.orderBy, _, 1, 'desc'),
+    _.partial(_.take, _, 7),
+    _.fromPairs
+])
+console.log('результат обработки текста с файла = ',
+    top5Words(text))
