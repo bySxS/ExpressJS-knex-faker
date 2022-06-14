@@ -26,6 +26,9 @@ router.get('/news', newsController.getNews)
 router.get('/comments/:id', commentsController.getCommentsByIdNews)
 router.post('/comment_create', commentsController.createComment)
 
+//log
+//router.post('/log', logController.pushLog)
+
 
 
 

@@ -15,8 +15,9 @@ function buildDevLogger() {
         ),
         transports: [
             new transports.Console(),
-            // new transports.File({ filename: 'logger/error.log', level: 'error', format: format.json() }),
-            // new transports.File({ filename: 'logger/combined.log', format: format.json() }),
+            //new transports.Http({ host: 'localhost', port: 3000, path: '/log', format: format.json() } ),
+            //new transports.File({ filename: 'logger/error.log', level: 'error' }),
+            //new transports.File({ filename: 'logger/combined.log' }),
         ],
     });
 }
