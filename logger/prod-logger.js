@@ -5,7 +5,11 @@ function buildProdLogger() {
     return createLogger({
         format: combine(timestamp(), errors({ stack: true }), json()),
         defaultMeta: { service: 'user-service' },
-        transports: [new transports.Console()],
+        transports: [
+            new transports.Console(),
+            new transports.File({ filename: 'logger/error.log', level: 'error', format: format.json() }),
+            new transports.File({ filename: 'logger/combined.log', format: format.json() }),
+        ],
     });
 }
 

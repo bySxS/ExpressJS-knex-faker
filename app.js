@@ -27,7 +27,8 @@ app.get('/', (req, res) => {
 })
 
 app.use(function(req, res) {
-    res.status(404).send('Sorry cant find that!');
+    logger.warn(`404 - ${req.path} - ${req.ip}`, {page: 'notFound'})
+    res.status(404).send('404!');
 });
 
 
