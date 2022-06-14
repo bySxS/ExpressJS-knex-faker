@@ -1,5 +1,6 @@
 const usersService = require('../service/users')
-const { faker } = require('@faker-js/faker');
+const logger = require('../logger')
+const { faker } = require('@faker-js/faker')
 
 class UsersController {
 
@@ -12,8 +13,7 @@ class UsersController {
             res.status(201).json(id)
 
         } catch (err) {
-
-            console.error(err)
+            logger.error(err, {controller_users: 'getNews'})
             res.status(500).json('что-то пошло не так!')
 
         }
@@ -23,13 +23,13 @@ class UsersController {
     async createMillionUsers(req, res) {
 
         try {
-            console.log('очищаем таблицу users')
+            logger.info('очищаем таблицу users')
             await usersService.deleteAllUsers()
 
             const start = new Date().getTime()
             let users = []
             for (let i = 0; i < 10; i++) {
-                console.log(i, 'генерируем')
+                logger.info(`${i} генерируем`, {controller_users: 'createMillionUsers'})
                 users = []
             for (let i = 0; i < 100000; i++) {
                 users.push({
@@ -38,7 +38,7 @@ class UsersController {
                     email: faker.internet.email()
                 })
             }
-                console.log(i, 'добавляем в бд')
+                logger.info(`${i} добавляем в бд`, {controller_users: 'createMillionUsers'})
                 await usersService.createUsers(users)
             }
 
@@ -49,7 +49,7 @@ class UsersController {
 
         } catch (err) {
 
-            console.error(err)
+            logger.error(err, {controller_users: 'createMillionUsers'})
             res.status(500).json('что-то пошло не так!')
 
         }
@@ -63,7 +63,7 @@ class UsersController {
             const id = await usersService.updateUser(req.params, req.body)
             res.status(201).json(`данные пользователя с id ${id} успешно изменили`)
         } catch (err) {
-            console.error(err)
+            logger.error(err, {controller_users: 'updateUser'})
             res.status(500).json('что-то пошло не так!')
         }
 
@@ -75,7 +75,7 @@ class UsersController {
             const listUsers = await usersService.getUsers(req.query)
             res.status(200).json(listUsers)
         } catch (err) {
-            console.error(err)
+            logger.error(err, {controller_users: 'getUsers'})
             res.status(500).json('что-то пошло не так!')
         }
     }
@@ -86,10 +86,10 @@ class UsersController {
             const start = new Date().getTime();
             const listUsers = await usersService.searchUsers(req.query)
             const end = new Date().getTime();
-            console.log(`время выполнения - ${end - start}ms`)
+            logger.info(`время выполнения - ${end - start}ms`, {controller_users: 'searchUsers'})
             res.status(200).json(listUsers)
         } catch (err) {
-            console.error(err)
+            logger.error(err, {controller_users: 'searchUsers'})
             res.status(500).json('что-то пошло не так!')
         }
     }
@@ -100,7 +100,7 @@ class UsersController {
             const User = await usersService.getUserById(req.params)
             res.status(200).json(User)
         } catch (err) {
-            console.error(err)
+            logger.error(err, {controller_users: 'getUserById'})
             res.status(500).json('что-то пошло не так!')
         }
 

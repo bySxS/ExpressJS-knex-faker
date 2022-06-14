@@ -1,4 +1,5 @@
 const categoryService = require('../service/category')
+const logger = require('../logger')
 //const { faker } = require('@faker-js/faker');
 
 class CategoryController {
@@ -11,8 +12,7 @@ class CategoryController {
             res.status(201).json(id)
 
         } catch (err) {
-
-            console.error(err)
+            logger.error(err, {controller_category: 'createCategory'})
             res.status(500).json('что-то пошло не так!')
 
         }
@@ -26,7 +26,7 @@ class CategoryController {
                 await categoryService.getCategoryById(req.params)
             res.status(200).json(category)
         } catch (err) {
-            console.error(err)
+            logger.error(err, {controller_category: 'getCategoryById'})
             res.status(500).json('что-то пошло не так!')
         }
 
@@ -37,7 +37,7 @@ class CategoryController {
             const categoryList = await categoryService.getCategories()
             res.status(200).json(categoryList)
         } catch (err) {
-            console.error(err)
+            logger.error(err, {controller_category: 'getCategories'})
             res.status(500).json('что-то пошло не так!')
         }
     }

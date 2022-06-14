@@ -1,7 +1,5 @@
 const db = require('../db/db')
 const commentsDAO = require('../dao/comments')
-//const categoryDAO = require('../dao/category')
-// const usersDAO = require('../dao/users')
 
 class NewsDAO {
 
@@ -31,10 +29,6 @@ class NewsDAO {
          if (result[0]) {
             result[0].comments =
                 await commentsDAO.getCommentsByIdNews(result[0].id)
-            // result[0].category =
-            //     await categoryDAO.getCategoryById(result[0].category_id)
-            // result[0].user =
-            //     await usersDAO.getUserById(result[0].user_id)
         }
 
 

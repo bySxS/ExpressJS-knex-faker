@@ -1,4 +1,5 @@
 const commentsService = require('../service/comments')
+const logger = require('../logger')
 //const { faker } = require('@faker-js/faker');
 
 class CommentsController {
@@ -8,7 +9,7 @@ class CommentsController {
             const id = await commentsService.createComment(req.body)
             res.status(201).json(id)
         } catch (err) {
-            console.error(err)
+            logger.error(err, {controller_comments: 'createComment'})
             res.status(500).json('что-то пошло не так!')
         }
     }
@@ -19,7 +20,7 @@ class CommentsController {
                 await commentsService.getCommentsByIdNews(req.params, req.query)
             res.status(200).json(comments_list)
         } catch (err) {
-            console.error(err)
+            logger.error(err, {controller_comments: 'getCommentsByIdNews'})
             res.status(500).json('что-то пошло не так!')
         }
     }
