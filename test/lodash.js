@@ -1,8 +1,8 @@
 const _ = require('lodash')
 //const _ = require('lodash/fp') //карированные
 const logger = require('../logger')
-let users = require('../test/t2.json')
-let text = require('../test/t1')
+let users = require('./test1/t2.json')
+let text = require('./test1/t1')
 //users = JSON.parse(users)
 //users = JSON.stringify(users)
 
