@@ -1,4 +1,4 @@
-const db = require('../db/db')
+const {db, promiseClientRedis} = require('../db/db')
 const bcrypt = require('bcryptjs');
 const logger = require('../logger')
 
@@ -54,11 +54,17 @@ class UsersDAO {
 
 
     async getUserById(id){
-        const result = await db('users')
+        const start = new Date().getTime()
+        let [user] = JSON.parse(await promiseClientRedis.get('user'))
+        if ((!user) || (user.id !== Number(id))) {
+        user = await db('users')
             .select('*')
             .where('id', id)
-        return result
-
+            await promiseClientRedis.set('user', JSON.stringify(user), 'EX', 1800)//удалять через пол часа
+        }
+        const end = new Date().getTime()
+        logger.info(`getUserById ${end - start}ms`)
+        return user
     }
 
     async getUserByNickname(nik){

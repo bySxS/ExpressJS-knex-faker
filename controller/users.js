@@ -70,19 +70,23 @@ class UsersController {
     async createMillionUsers(req, res) {
 
         try {
-            logger.info('очищаем таблицу users')
-            await usersService.deleteAllUsers()
+            //logger.info('очищаем таблицу users')
+            //await usersService.deleteAllUsers()
 
             const start = new Date().getTime()
             let users = []
+            const hashPassword = bcrypt.hashSync('123', 7);
             for (let i = 0; i < 10; i++) {
                 logger.info(`${i} генерируем`, {controller_users: 'createMillionUsers'})
                 users = []
+
             for (let i = 0; i < 100000; i++) {
                 users.push({
                     nickname: faker.internet.userName(),
                     full_name: faker.name.findName(),
-                    email: faker.internet.email()
+                    email: faker.internet.email(),
+                    roles_id: 2,
+                    password: hashPassword
                 })
             }
                 logger.info(`${i} добавляем в бд`, {controller_users: 'createMillionUsers'})

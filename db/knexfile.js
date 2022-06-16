@@ -1,17 +1,7 @@
 
 
 module.exports = {
-    // development: {
-    //     client: 'sqlite3',
-    //     connection: { //migrations
-    //         filename: "./db/data.sqlite3"
-    //     },
-    //     useNullAsDefault: true
-    // },
-
-
-
-    development: {
+     development: {
       client: 'mysql',
       connection: { //migrations
           host: '127.0.0.1',
