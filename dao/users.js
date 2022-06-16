@@ -1,11 +1,70 @@
 const db = require('../db/db')
+const bcrypt = require('bcryptjs');
+const logger = require('../logger')
 
 class UsersDAO {
+
+    ////////////roles
+    async AddRole(name, nameRus) {
+        try {
+            await db('roles').insert({name, name_rus: nameRus})
+            return name
+        } catch (e) {
+            logger.error(e)
+            return 'не'
+        }
+    }
+
+    async getIdRoleByName(name){
+        const [res] = await db('roles').select('id')
+            .where('name', '=', name)
+        if(res) {return res.id} else {return 0}
+    }
+    ////////////roles
+
+    async registration(nickname, fullName, email, roles = 'user', password) {
+
+        const candidate = await this.getUserByNickname(nickname)
+        if ((candidate)&&(candidate.nickname)) {
+            return '{message: "Пользователь с таким именем уже существует"}'
+        }
+        const hashPassword = bcrypt.hashSync(password, 7);
+        let idRole = await this.getIdRoleByName(roles)
+        if ((idRole === 0) && (roles === 'user')) {//создаем группу user 1 раз
+            await this.AddRole('user', 'Пользователь')
+            idRole = await this.getIdRoleByName(roles)
+        }
+        if ((idRole === 0) && (roles === 'admin')) {//создаем группу admin 1 раз
+            await this.AddRole('admin', 'Администратор')
+            idRole = await this.getIdRoleByName(roles)
+        }
+        if (idRole > 0) {
+            await db('users')
+                .insert({
+                    nickname,
+                    email,
+                    full_name: fullName,
+                    roles_id: idRole,
+                    password: hashPassword
+                })
+            return `{message: "Пользователь ${nickname} успешно зарегистрирован"}`
+        } else return `{message: "Группы ${roles} - нет"}`
+
+    }
+
 
     async getUserById(id){
         const result = await db('users')
             .select('*')
             .where('id', id)
+        return result
+
+    }
+
+    async getUserByNickname(nik){
+        const [result] = await db('users')
+            .select('*')
+            .where('nickname', nik)
         return result
 
     }
@@ -24,22 +83,11 @@ class UsersDAO {
         return `Все пользователи из БД удалены`
     }
 
-    async createUser(nickname, fullName, email){
-        const [id] = await db('users')
-            .insert({
-                nickname,
-                email,
-                full_name: fullName
-            })
-
-        return id
-    }
-
     async updateUser(id, nickname, fullName, email) {
-        const have = await this.getUserById(id)
-        if (have[0]) {
+        const [have] = await this.getUserById(id)
+        if (have) {
             let result = await db('users')
-                .where({id: have[0].id})
+                .where({id: have.id})
                 .update({
                     nickname,
                     email,

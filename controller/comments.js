@@ -1,6 +1,5 @@
 const commentsService = require('../service/comments')
 const logger = require('../logger')
-//const { faker } = require('@faker-js/faker');
 
 class CommentsController {
 

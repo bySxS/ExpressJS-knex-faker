@@ -3,8 +3,8 @@ const categoryDAO = require('../dao/category')
 class CategoryService {
 
     createCategory(Dto){
-        const {name, nameRus} = Dto
-        return categoryDAO.createCategory(name, nameRus)
+        const {name, nameRus, moduleName} = Dto
+        return categoryDAO.createCategory(name, nameRus, moduleName)
     }
 
     getCategoryById(Dto){
@@ -12,8 +12,9 @@ class CategoryService {
         return categoryDAO.getCategoryById(id)
     }
 
-    getCategories(){
-        return categoryDAO.getCategories()
+    getCategories(Dto){
+        const {moduleName} = Dto
+        return categoryDAO.getCategories(moduleName)
     }
 
 }

@@ -1,16 +1,63 @@
 const usersService = require('../service/users')
 const logger = require('../logger')
 const { faker } = require('@faker-js/faker')
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+require('dotenv').config()
+const { validationResult } = require('express-validator')
+
+
+const generateAccessToken = (id, roles) => {
+    const payload = {
+        id,
+        roles
+    }
+    return jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: "24h"} )
+}
 
 class UsersController {
 
+    async AddRole(req, res) {
+        try {
+            const id = await usersService.AddRole(req.body)
+            res.status(201).json(`группа пользователей ${id} создана`)
+        } catch (err) {
+            logger.error(err, {controller_users: 'AddRole'})
+            res.status(500).json('что-то пошло не так!')
+        }
+    }
 
-    async createUser(req, res) {
+    async login(req, res) {
+        try {
+            const {password} = req.body
+            const user = await usersService.getUserByNickname(req.body)
+            if (!user) {
+                return res.status(400)
+                    .json({message: `Пользователь ${username} не найден`})
+            }
+            const validPassword = bcrypt.compareSync(password, user.password)
+            if (!validPassword) {
+                return res.status(400)
+                    .json({message: `Введен неверный пароль`})
+            }
+            const token = generateAccessToken(user.id, user.roles)
+            return res.json({token})
+        } catch (e) {
+            console.log(e)
+            res.status(400).json({message: 'Login error'})
+        }
+    }
+
+    async registration(req, res) {
 
         try {
-
-            const id = await usersService.createUser(req.body)
-            res.status(201).json(id)
+            const errors = validationResult(req)
+            if (!errors.isEmpty()) {
+                return res.status(400)
+                    .json({message: "Ошибка при регистрации", errors})
+            }
+            const result = await usersService.registration(req.body)
+            res.status(201).json(result)
 
         } catch (err) {
             logger.error(err, {controller_users: 'getNews'})
@@ -95,7 +142,6 @@ class UsersController {
     }
 
     async getUserById(req, res) {
-
         try {
             const User = await usersService.getUserById(req.params)
             res.status(200).json(User)
@@ -103,8 +149,8 @@ class UsersController {
             logger.error(err, {controller_users: 'getUserById'})
             res.status(500).json('что-то пошло не так!')
         }
-
     }
+
 
 }
 

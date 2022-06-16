@@ -17,7 +17,7 @@ module.exports = {
           host: '127.0.0.1',
           user: 'sxs',
           password: '123456789s',
-          database: 'site-test2',
+          database: 'site-test',
           charset: 'utf8'
       },
       migrations: {

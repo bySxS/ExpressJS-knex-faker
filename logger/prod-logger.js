@@ -7,8 +7,8 @@ function buildProdLogger() {
         defaultMeta: { service: 'user-service' },
         transports: [
             new transports.Console(),
-            new transports.File({ filename: 'logger/error.log', level: 'error', format: format.json() }),
-            new transports.File({ filename: 'logger/combined.log', format: format.json() }),
+            new transports.File({ filename: 'logger/log/error.log', level: 'error', format: format.json() }),
+            new transports.File({ filename: 'logger/log/combined.log', format: format.json() }),
         ],
     });
 }

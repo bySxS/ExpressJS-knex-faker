@@ -2,11 +2,12 @@ const db = require('../db/db')
 
 class CategoryDAO {
 
-    async createCategory(name, nameRus){
+    async createCategory(name, nameRus, moduleName){
         const [id] = await db('category')
             .insert({
                 name,
-                name_rus: nameRus
+                name_rus: nameRus,
+                module_name: moduleName
             })
 
         return id
@@ -19,9 +20,10 @@ class CategoryDAO {
         return result
     }
 
-    async getCategories(){
+    async getCategories(moduleName){
         const category = await db('category')
             .select('*')
+            .where('module_name', moduleName)
         return category
 
     }

@@ -1,6 +1,5 @@
 const categoryService = require('../service/category')
 const logger = require('../logger')
-//const { faker } = require('@faker-js/faker');
 
 class CategoryController {
 
@@ -34,7 +33,7 @@ class CategoryController {
 
     async getCategories(req, res) {
         try {
-            const categoryList = await categoryService.getCategories()
+            const categoryList = await categoryService.getCategories(req.params)
             res.status(200).json(categoryList)
         } catch (err) {
             logger.error(err, {controller_category: 'getCategories'})

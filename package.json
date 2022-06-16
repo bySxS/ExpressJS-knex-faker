@@ -10,7 +10,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "testmoment": "nodemon test/moment.js",
     "testlodash": "nodemon test/lodash.js",
-    "testfile": "nodemon test/file.js"
+    "testfile": "nodemon test/file.js",
+    "testapi": "nodemon test/remoteApi.js"
   },
   "repository": {
     "type": "git",
@@ -23,9 +24,15 @@
   },
   "homepage": "https://github.com/bySxS/ExpressJS-knex-faker#readme",
   "dependencies": {
+    "axios": "^0.27.2",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
+    "dotenv": "^16.0.1",
     "express": "^4.18.1",
+    "express-validator": "^6.14.1",
+    "jsonwebtoken": "^8.5.1",
     "knex": "^2.1.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.3",

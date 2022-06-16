@@ -1,6 +1,5 @@
 const newsService = require('../service/news')
 const logger = require('../logger')
-//const { faker } = require('@faker-js/faker');
 
 class NewsController {
 

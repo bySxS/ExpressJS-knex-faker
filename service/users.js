@@ -2,9 +2,20 @@ const usersDAO = require('../dao/users')
 
 class UsersService {
 
-    createUser(Dto){
-        const {nickname, fullName, email} = Dto
-        return usersDAO.createUser(nickname, fullName, email)
+    AddRole(Dto){
+        const {name, nameRus} = Dto
+        return usersDAO.AddRole(name, nameRus)
+    }
+
+    getUserByNickname(Dto){
+        const {nickname} = Dto
+        return usersDAO.getUserByNickname(nickname)
+    }
+
+    registration(Dto){
+        const {nickname, fullName, email, roles, password} = Dto
+        return usersDAO.registration(nickname, fullName, email,
+            roles, password)
     }
 
     createUsers(Dto){
