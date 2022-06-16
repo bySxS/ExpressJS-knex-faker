@@ -55,12 +55,17 @@ class UsersDAO {
 
     async getUserById(id){
         const start = new Date().getTime()
-        let [user] = JSON.parse(await promiseClientRedis.get('user'))
-        if ((!user) || (user.id !== Number(id))) {
+        let user = JSON.parse(await promiseClientRedis.get('user:'+id))
+        //await promiseClientRedis.hSet('user2:'+id, 'codePrivateHash', JSON.stringify(user))
+        //await promiseClientRedis.expire('user2:'+id, 1800)
+        //console.log(await promiseClientRedis.hGet('user2:'+id, 'codePrivateHash'))
+        //await promiseClientRedis.del('user:'+id)
+        if (!user) {
         user = await db('users')
             .select('*')
             .where('id', id)
-            await promiseClientRedis.set('user', JSON.stringify(user), 'EX', 1800)//удалять через пол часа
+            await promiseClientRedis.set('user:'+id, JSON.stringify(user))
+            await promiseClientRedis.expire('user:'+id, 1800)//удалять через пол часа
         }
         const end = new Date().getTime()
         logger.info(`getUserById ${end - start}ms`)
