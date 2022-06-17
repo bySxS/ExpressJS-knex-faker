@@ -66,6 +66,8 @@ class UsersDAO {
             .where('id', id)
             await promiseClientRedis.set('user:'+id, JSON.stringify(user))
             await promiseClientRedis.expire('user:'+id, 1800)//удалять через пол часа
+        } else {
+            await promiseClientRedis.expire('user:'+id, 1800)//удалять через пол часа
         }
         const end = new Date().getTime()
         logger.info(`getUserById ${end - start}ms`)

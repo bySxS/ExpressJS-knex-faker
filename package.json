@@ -6,8 +6,10 @@
   "scripts": {
     "start": "node app.js",
     "dev": "cross-env NODE_ENV=development && nodemon app.js",
+    "startpm2": "pm2 start app.js -i -1 --watch",
+    "stoppm2": "pm2 stop app.js --watch",
     "migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "autocannon -c 100 -d 60 -p 10 localhost:3000",
     "testmoment": "nodemon test/moment.js",
     "testlodash": "nodemon test/lodash.js",
     "testfile": "node test/file.js",
@@ -38,6 +40,7 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.3",
     "mysql": "^2.18.1",
+    "pm2": "^5.2.0",
     "redis": "^4.1.0",
     "sqlite3": "^5.0.8",
     "winston": "^3.7.2"
