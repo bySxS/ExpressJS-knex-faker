@@ -10,15 +10,22 @@ module.exports = function (roles) {
 
         try {
             const token = req.headers.authorization.split(' ')[1]
-            //console.log(token)
             if (!token) {
                 return res.status(403)
                     .json({message: "Пользователь не авторизован"})
             }
             const {roles: userRoles} = jwt.verify(token, process.env.JWT_ACCESS_SECRET)
+            let needRoles = []
+            const useRoles = [userRoles]
+            needRoles.push('admin')//всегда даем права админу
+             if (typeof (roles) === "object") {
+                 needRoles = [...needRoles, ...roles]
+             } else {
+                 needRoles = [...needRoles, roles]
+             }
             let hasRole = false
-            roles.forEach(role => {
-                if (roles.includes(role)) {
+            useRoles.forEach(role => {
+                if (needRoles.includes(role)) {
                     hasRole = true
                 }
             })
@@ -28,7 +35,7 @@ module.exports = function (roles) {
             }
             next();
         } catch (e) {
-            //console.log(e)
+            console.log(e)
             return res.status(403)
                 .json({message: "Пользователь не авторизован"})
         }

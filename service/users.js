@@ -7,6 +7,12 @@ class UsersService {
         return usersDAO.AddRole(name, nameRus)
     }
 
+    getRoleById(Dto){
+        let {id, roles_id} = Dto
+        if (roles_id) id = roles_id
+        return usersDAO.getRoleById(id)
+    }
+
     getUserByNickname(Dto){
         const {nickname} = Dto
         return usersDAO.getUserByNickname(nickname)

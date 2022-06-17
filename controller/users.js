@@ -7,12 +7,15 @@ require('dotenv').config()
 const { validationResult } = require('express-validator')
 
 
-const generateAccessToken = (id, roles) => {
+const generateAccessToken = (id, nickname, roles) => {
     const payload = {
+        roles,
         id,
-        roles
+        nickname
     }
-    return jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: "24h"} )
+
+    const jwtRes = jwt.sign(payload, process.env.JWT_ACCESS_SECRET, {expiresIn: "24h"} )
+    return jwtRes
 }
 
 class UsersController {
@@ -29,18 +32,19 @@ class UsersController {
 
     async login(req, res) {
         try {
-            const {password} = req.body
+            const {password, nickname} = req.body
             const user = await usersService.getUserByNickname(req.body)
             if (!user) {
                 return res.status(400)
-                    .json({message: `Пользователь ${username} не найден`})
+                    .json({message: `Пользователь ${nickname} не найден`})
             }
+            const roles = await usersService.getRoleById(user)
             const validPassword = bcrypt.compareSync(password, user.password)
             if (!validPassword) {
                 return res.status(400)
                     .json({message: `Введен неверный пароль`})
             }
-            const token = generateAccessToken(user.id, user.roles)
+            const token = generateAccessToken(user.id, user.nickname, roles.name)
             return res.json({token})
         } catch (e) {
             console.log(e)

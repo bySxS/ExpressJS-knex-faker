@@ -20,6 +20,12 @@ class UsersDAO {
             .where('name', '=', name)
         if(res) {return res.id} else {return 0}
     }
+
+    async getRoleById(id){
+        const [res] = await db('roles').select('*')
+            .where('id', '=', id)
+        if(res) {return res}
+    }
     ////////////roles
 
     async registration(nickname, fullName, email, roles = 'user', password) {
