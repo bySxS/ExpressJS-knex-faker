@@ -116,7 +116,7 @@ class UsersController {
         try {
 
             const id = await usersService.updateUser(req.params, req.body)
-            res.status(201).json(`данные пользователя с id ${id} успешно изменили`)
+            res.status(201).json(`данные пользователя с id ${id} будут изменены через 1 минуту`)
         } catch (err) {
             logger.error(err, {controller_users: 'updateUser'})
             res.status(500).json('что-то пошло не так!')

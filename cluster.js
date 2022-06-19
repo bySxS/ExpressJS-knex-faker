@@ -1,6 +1,7 @@
 const cluster = require("cluster")
 const logger = require('./logger')
 const os = require("os")
+//const {userQueueDB} = require('./db/db')
 
 
 const start = async function startServer() {
@@ -15,13 +16,21 @@ const start = async function startServer() {
         }
 
 
-        cluster.on("exit", (worker) => {
-            console.log(`A worker with ID ${worker.process.pid} died.`)
-            cluster.fork()
+        cluster.on("exit", (worker, code) => {
+            console.log(`A worker with ID ${worker.process.pid} died. Code ${code}`)
+            if (code === 1) {
+                cluster.fork()
+            }
         });
-    }
-    if (cluster.isWorker){
+    } else {
         require('./app')
+        //kill -s SIGUSR2 pid
+        cluster.on("SIGUSR2", async (worker, code) => {
+            console.log(`Signal is ${worker.process.pid} SIGUSR2. Code ${code}`)
+            //await userQueueDB.obliterate({ force: true });
+            process.exit(1)//передаем code 1 в on(exit)
+        });
+        
     }
 }
 

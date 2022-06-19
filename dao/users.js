@@ -1,6 +1,7 @@
-const {db, promiseClientRedis} = require('../db/db')
+const {db, userQueueDB, cacheRedisDB} = require('../db/db')
 const bcrypt = require('bcryptjs');
 const logger = require('../logger')
+const milliseconds = require('milliseconds')
 
 class UsersDAO {
 
@@ -60,8 +61,8 @@ class UsersDAO {
 
 
     async getUserById(id){
-        const start = new Date().getTime()
-        let user = JSON.parse(await promiseClientRedis.get('user:'+id))
+        //const start = new Date().getTime()
+        let user = JSON.parse(await cacheRedisDB.get('user:'+id))
         //await promiseClientRedis.hSet('user2:'+id, 'codePrivateHash', JSON.stringify(user))
         //await promiseClientRedis.expire('user2:'+id, 1800)
         //console.log(await promiseClientRedis.hGet('user2:'+id, 'codePrivateHash'))
@@ -70,13 +71,13 @@ class UsersDAO {
         user = await db('users')
             .select('*')
             .where('id', id)
-            await promiseClientRedis.set('user:'+id, JSON.stringify(user))
-            await promiseClientRedis.expire('user:'+id, 1800)//удалять через пол часа
+            await cacheRedisDB.set('user:'+id, JSON.stringify(user))
+            await cacheRedisDB.expire('user:'+id, 1800)//удалять через пол часа
         } else {
-            await promiseClientRedis.expire('user:'+id, 1800)//удалять через пол часа
+            await cacheRedisDB.expire('user:'+id, 1800)//удалять через пол часа
         }
-        const end = new Date().getTime()
-        logger.info(`getUserById ${end - start}ms`)
+        //const end = new Date().getTime()
+        //logger.info(`getUserById ${end - start}ms`)
         return user
     }
 
@@ -102,18 +103,12 @@ class UsersDAO {
         return `Все пользователи из БД удалены`
     }
 
-    async updateUser(id, nickname, fullName, email) {
-        const [have] = await this.getUserById(id)
-        if (have) {
-            let result = await db('users')
-                .where({id: have.id})
-                .update({
-                    nickname,
-                    email,
-                    full_name: fullName
-                })
-            if (result == 1) result = id
-            return result
+    async updateUser(id, nickname, fullName, email, password, roles_id) {
+        const [user] = await this.getUserById(id)
+        if (user) {
+            let PayLoad = {id, nickname, fullName, email, password, roles_id}
+            await userQueueDB.add('update', PayLoad, {delay: milliseconds.minutes(1)})
+            return id
         }
     }
 

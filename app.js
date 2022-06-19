@@ -35,4 +35,3 @@ app.use(function (req, res) {
 app.listen(PORT, () => {
     logger.info(`App listening on port ${PORT}. Worker started. Pid: ${process.pid}`)
 })
-

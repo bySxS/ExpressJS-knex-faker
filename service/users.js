@@ -49,8 +49,8 @@ class UsersService {
 
     updateUser(idDto, bodyDto){
         const {id} = idDto
-        const {nickname, fullName, email} = bodyDto
-        return usersDAO.updateUser(id, nickname, fullName, email)
+        const {nickname, fullName, email, password, roles_id} = bodyDto
+        return usersDAO.updateUser(id, nickname, fullName, email, password, roles_id)
     }
 
 }

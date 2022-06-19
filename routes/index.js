@@ -21,7 +21,7 @@ router.post('/addRole',roleMiddleware(["admin"], usersController.AddRole))
 router.get('/users', roleMiddleware(["user", "admin"]), usersController.getUsers)
 router.put('/user_update/:id', roleMiddleware(["admin"]), usersController.updateUser)
 router.get('/test1_create_million_user', roleMiddleware(["admin"]), usersController.createMillionUsers)
-router.get('/users/:id', authMiddleware, usersController.getUserById)
+router.get('/users/:id', usersController.getUserById)
 // router.get('/users', usersController.getUsers)
 router.get('/search_users', authMiddleware, usersController.searchUsers)
 //category
