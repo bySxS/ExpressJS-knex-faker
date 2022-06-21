@@ -10,6 +10,7 @@ exports.up = function(knex) {
                 .unsigned()
             tbl.string('nickname', 40)
                 .notNullable()
+                .unique()
             tbl.index('nickname', 'idx_users_nickname');
             tbl.string('full_name', 80)
             tbl.integer('roles_id')
@@ -20,6 +21,7 @@ exports.up = function(knex) {
                 .onUpdate('CASCADE')
             tbl.string('email', 40)
                 .notNullable()
+                .unique()
             tbl.string('password', 200)
                 .notNullable()
             tbl.timestamps(true, true)

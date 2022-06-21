@@ -19,9 +19,8 @@ class UsersService {
     }
 
     registration(Dto){
-        const {nickname, fullName, email, roles, password} = Dto
-        return usersDAO.registration(nickname, fullName, email,
-            roles, password)
+        const {nickname, fullName, email, password} = Dto
+        return usersDAO.registration(nickname, fullName, email, password)
     }
 
     createUsers(Dto){

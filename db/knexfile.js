@@ -22,7 +22,7 @@ module.exports = {
             host: '127.0.0.1',
             user: 'sxs',
             password: '123456789s',
-            database: 'site-test',
+            database: 'site-dev',
             charset: 'utf8'
         },
         migrations: {
@@ -40,7 +40,7 @@ module.exports = {
             host: '127.0.0.1',
             user: 'sxs',
             password: '123456789s',
-            database: 'site-test',
+            database: 'site-prod',
             charset: 'utf8'
         },
         migrations: {

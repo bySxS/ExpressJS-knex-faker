@@ -4,16 +4,18 @@
  */
 exports.up = function(knex) {
     return knex.schema
-        .createTable('roles', tbl => {
+        .createTable('category_movies', tbl => {
             tbl.increments('id')
                 .primary()
                 .unsigned()
+            // tbl.string('module_name', 40)
+            //     .notNullable()
             tbl.string('name', 40)
                 .notNullable()
-                .unique()
             tbl.string('name_rus', 40)
                 .notNullable()
-                .unique()
+            tbl.string('url', 80)
+                .notNullable()
         })
 };
 
@@ -23,5 +25,5 @@ exports.up = function(knex) {
  */
 exports.down = function(knex) {
     return knex.schema
-        .dropTable('roles')
+        .dropTable('category_movies')
 };

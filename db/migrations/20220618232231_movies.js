@@ -8,18 +8,18 @@ exports.up = function(knex) {
             tbl.increments('id')
                 .primary()
                 .unsigned()
-            tbl.string('title', 100).notNullable()
+            tbl.string('title', 255).notNullable()
             tbl.index(['title'], 'idx_movies_title');
             tbl.integer('category_id')
                 .references('id')
-                .inTable('category')
+                .inTable('category_movies')
                 .unsigned()
             tbl.integer('user_id')
                 .references('id')
                 .inTable('users')
                 .unsigned()
-            tbl.string('text')
-
+            tbl.string('text', 3000)
+            tbl.string('url', 255)
             tbl.timestamps(true, true)
         })
 };

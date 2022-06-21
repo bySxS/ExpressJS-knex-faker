@@ -11,12 +11,12 @@ const {check} = require("express-validator")
 
 const router = express.Router();
 //авторизация
-router.post('/auth/registration', [
+router.post('/registration', [
     check('nickname', "Имя пользователя не может быть пустым").notEmpty(),
     check('password', "Пароль должен быть больше 4 и меньше 10 символов").isLength({min:4, max:10})
 ], usersController.registration)
-router.post('/auth/login', usersController.login)
-router.post('/addRole',roleMiddleware(["admin"], usersController.AddRole))
+router.post('/login', usersController.login)
+router.post('/add_role',roleMiddleware("admin"), usersController.AddRole)
 //users
 router.get('/users', roleMiddleware(["user", "admin"]), usersController.getUsers)
 router.put('/user_update/:id', roleMiddleware(["admin"]), usersController.updateUser)

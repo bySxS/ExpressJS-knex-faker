@@ -29,7 +29,7 @@ exports.up = function(knex) {
                 .onDelete('CASCADE')
                 .onUpdate('CASCADE')
                 .notNullable()
-            tbl.string('text')
+            tbl.string('text', 1000)
                 .notNullable()
             tbl.timestamps(true, true)
         })

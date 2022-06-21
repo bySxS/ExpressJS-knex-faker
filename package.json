@@ -10,12 +10,14 @@
     "startpm2": "pm2 start app.js -i -1 --watch",
     "stoppm2": "pm2 stop app.js --watch",
     "migrate": "npx knex migrate:latest --knexfile db/knexfile.js",
-    "seeds": "npx knex seed:make roles --knexfile db/knexfile.js",
+    "seedadd": "npx knex seed:run --knexfile db/knexfile.js",
+    "seedmake": "npx knex seed:make roles --knexfile db/knexfile.js",
     "test": "autocannon -c 200 -d 10 localhost:3000/users/3",
     "testmoment": "nodemon test/moment.js",
     "testlodash": "nodemon test/lodash.js",
     "testfile": "node test/file.js",
-    "testapi": "node test/remoteApi.js"
+    "testapi": "node test/remoteApi.js",
+    "testwebsocket": "nodemon test/websocket/websocket.js"
   },
   "repository": {
     "type": "git",
@@ -38,6 +40,7 @@
     "dotenv": "^16.0.1",
     "express": "^4.18.1",
     "express-validator": "^6.14.1",
+    "express-ws": "^5.0.2",
     "jsonwebtoken": "^8.5.1",
     "knex": "^2.1.0",
     "lodash": "^4.17.21",
@@ -48,6 +51,7 @@
     "pm2": "^5.2.0",
     "redis": "^4.1.0",
     "sqlite3": "^5.0.8",
+    "websocket-stream": "^5.5.2",
     "winston": "^3.7.2"
   },
   "devDependencies": {

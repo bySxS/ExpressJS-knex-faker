@@ -18,12 +18,28 @@ const generateAccessToken = (id, nickname, roles) => {
     return jwtRes
 }
 
+function getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+}
+
+function makeid(length) {
+    let result           = '';
+    const characters       = 'abcdefghijklmnopqrstuvwxyz';
+    const charactersLength = characters.length;
+    for ( let i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() *
+            charactersLength));
+    }
+    return result;
+}
+
+
 class UsersController {
 
     async AddRole(req, res) {
         try {
-            const id = await usersService.AddRole(req.body)
-            res.status(201).json(`группа пользователей ${id} создана`)
+            const result = await usersService.AddRole(req.body)
+            res.status(201).json(result)
         } catch (err) {
             logger.error(err, {controller_users: 'AddRole'})
             res.status(500).json('что-то пошло не так!')
@@ -64,7 +80,7 @@ class UsersController {
             res.status(201).json(result)
 
         } catch (err) {
-            logger.error(err, {controller_users: 'getNews'})
+            logger.error(err, {controller_users: 'registration'})
             res.status(500).json('что-то пошло не так!')
 
         }
@@ -86,9 +102,9 @@ class UsersController {
 
             for (let i = 0; i < 100000; i++) {
                 users.push({
-                    nickname: faker.internet.userName(),
+                    nickname: faker.internet.userName() + getRandomInt(1000),
                     full_name: faker.name.findName(),
-                    email: faker.internet.email(),
+                    email: makeid(5) + faker.internet.email(),
                     roles_id: 2,
                     password: hashPassword
                 })
@@ -128,6 +144,8 @@ class UsersController {
 
         try {
             const listUsers = await usersService.getUsers(req.query)
+            //console.log('2',listUsers)
+            //res.status(200).send(listUsers)
             res.status(200).json(listUsers)
         } catch (err) {
             logger.error(err, {controller_users: 'getUsers'})
@@ -138,10 +156,10 @@ class UsersController {
     async searchUsers(req, res) {
 
         try {
-            const start = new Date().getTime();
+            //const start = new Date().getTime();
             const listUsers = await usersService.searchUsers(req.query)
-            const end = new Date().getTime();
-            logger.info(`время выполнения - ${end - start}ms`, {controller_users: 'searchUsers'})
+            //const end = new Date().getTime();
+            //logger.info(`время выполнения - ${end - start}ms`, {controller_users: 'searchUsers'})
             res.status(200).json(listUsers)
         } catch (err) {
             logger.error(err, {controller_users: 'searchUsers'})
